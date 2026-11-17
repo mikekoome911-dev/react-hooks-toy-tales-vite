@@ -1,44 +1,67 @@
-# Practice Challenge: Toy Tales
+# Toy Tale — React Full CRUD Application
 
-You've got a friend in need! Again!
+Toy Tale is a single-page React application for managing a collection of toys. Users can view all existing toys on page load, create new toys via a toggleable form, like toys to increment their popularity count, and donate (delete) toys from the collection.
 
-Andy has misplaced of his toys (again) and need your help to organize them.
+## Visuals
 
-## Setup
+![Toy Tale App Screenshot](./public/screenshot.png)
 
-All the information about Andy's toys can be found in the `db.json` file. We'll
-be using `json-server` to create a RESTful API for our database.
+## Features
 
-Run `npm install` to install our dependencies.
+* **View All Toys (`GET /toys`):** Fetches and displays all toys from the JSON backend on initial page load using `useEffect`.
+* **Add a New Toy (`POST /toys`):** Submits a controlled form to create a new toy with `0` initial likes and renders it immediately in the collection.
+* **Like a Toy (`PATCH /toys/:id`):** Increments a toy's like count on the backend and updates it in React state while preserving the original card order.
+* **Donate a Toy (`DELETE /toys/:id`):** Deletes a toy from the backend and removes its card from the page immediately.
 
-Then, run `npm run server` to start up `json-server` on `http://localhost:3001`.
+## Installation
 
-In another tab, run `npm run dev` to start up our React app at `http://localhost:3000`.
+1. **Clone the repository**
+   ```bash
+   git clone <your-github-repo-url>
+   cd <your-repo-folder-name>
+   ```
 
-In another tab, run `npm run test` to run the test suite.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Before you start building out the application, the first step that you should
-take is to examint the current code and component hierarchy. This will tell you 
-how components can pass data to each other as well as where that information should 
-be stored.
+## Usage
 
-## Deliverables
+Run the backend JSON server and React frontend in two separate terminals:
 
-- _When our application loads_, make a GET request to `/toys` to fetch the toy
-  array. Given your component tree, think about which component should be
-  responsible for the array. After you have put the data in the proper
-  component, your next job is to render the `ToyCard` components on the page.
+1. **Start the JSON server**
+   ```bash
+   npm run server
+   ```
 
-- _When the `ToyForm` is submitted_, make a POST request to `/toys` to save a
-  new toy to the server. Using the ideas of controlled form and inverse data
-  flow, think about how to render a new `ToyCard` for the toy that you created.
+2. **Start the React development server**
+   ```bash
+   npm run dev
+   ```
 
-- _When the `Donate to Goodwill` button is clicked_, make a DELETE request to
-  `/toys/:id` with the ID of the toy that was clicked to delete the toy from the
-  server. The `ToyCard` that you clicked on should also be removed from the DOM.
+3. **Run the automated test suite**
+   ```bash
+   npm run test
+   ```
 
-- _When the like button is clicked_, make a PATCH request to `/toys/:id` with
-  the id of the toy that was clicked, along with the new number of likes (this
-  should be sent in the body of the PATCH request, as a object:
-  `{ likes: 10 }`), to update the toy on the server. Clicking on the button
-  should also increase the number of likes on the DOM.
+## Project Architecture
+
+```text
+src/
+├── components/
+│   ├── App.jsx          # Root state hub (fetches toys, handles POST/PATCH/DELETE state updates)
+│   ├── Header.jsx       # Toy Tale banner header
+│   ├── ToyForm.jsx      # Controlled form for creating new toys (POST)
+│   ├── ToyContainer.jsx # Renders the collection of ToyCard components
+│   └── ToyCard.jsx      # Individual toy card with Like (PATCH) and Donate (DELETE) actions
+└── __tests__/           # Automated Vitest / React Testing Library test suites
+```
+
+## Contributing
+
+Pull requests are welcome. Create a feature branch from `main`, verify `npm run test` passes, open a Pull Request, and delete stale branches after merging.
+
+## License
+
+[MIT](https://choosealicense.com)
